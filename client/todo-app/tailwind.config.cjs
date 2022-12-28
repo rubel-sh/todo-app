@@ -10,6 +10,10 @@ module.exports = {
         primaryColor: "#D9465A",
         secondaryColor: "#6B7280",
         backgroundColor: "#F5F6F9",
+        selectColor1: "#C8D8F0",
+        selectColor2: "#C8F1F6",
+        selectColor3: "#D8C8E5",
+        selectColor4: "#E6EAC1",
         red: {
           50: "#ffebee",
           100: "#ffcdd2",
