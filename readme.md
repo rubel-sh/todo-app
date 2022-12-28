@@ -1,4 +1,4 @@
-# Full STACK TODO APP
+# MERN STACK TODO APP
 
 Anyone with an account can Add, Manage or delete tasks.
 User can sign in with Google or create account with Email and password
