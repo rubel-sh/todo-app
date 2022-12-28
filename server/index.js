@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 5001;
 
 // Middlewares
 app.use(cors());
+app.use(express.json());
 
 // Connect MongoDB
 const ATLAS_URL = `mongodb+srv://${process.env.DBUSERNAME}:${process.env.DBPASSWORD}@cluster0.f3qt6qk.mongodb.net/?retryWrites=true&w=majority`;
@@ -24,10 +25,27 @@ async function connectDB() {
 }
 connectDB();
 
+// Collections
+const postsCollection = client.db("TodoApp").collection("todos");
+
 // Endpoints
 app.get("/", async (req, res) => {
   res.send("TODO Server is running");
 });
+
+// Send todo to todos collection
+app.post("/todos", async (req, res) => {
+  try {
+    const post = req.body;
+    // console.log(post);
+    const posted = await postsCollection.insertOne(post);
+    res.send(posted);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Get all todos
 
 // Listening Port
 app.listen(PORT, () => {
