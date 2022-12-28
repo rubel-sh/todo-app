@@ -1,12 +1,11 @@
 import React from "react";
 import { SlPlus } from "react-icons/sl";
+import CardHeading from "../../components/CardHeading";
 
 const AddTask = () => {
   return (
     <div className=" p-10 bg-white rounded-md">
-      <h2 className="text-3xl text-primaryColor font-medium mb-6">
-        Create Task
-      </h2>
+      <CardHeading>Create Task</CardHeading>
       <form>
         <div className="grid gap-4 mb-8">
           {/* Add Title */}
