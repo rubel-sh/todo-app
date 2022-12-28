@@ -67,7 +67,7 @@ app.put("/todos", async (req, res) => {
       updateDoc,
       options
     );
-    console.log(updateTodo);
+    // console.log(updateTodo);
     res.send(updateTodo);
   } catch (err) {
     console.log(err);

@@ -4,6 +4,7 @@ import CardHeading from "../../components/CardHeading";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const AddTask = () => {
   const [creatingTask, setCreatingTask] = useState(false);
@@ -44,6 +45,18 @@ const AddTask = () => {
 
           // Upload data to DB
           console.log(task);
+          const postAPI = `${import.meta.env.VITE_API}/todos`;
+          axios.post(postAPI, task).then((r) => {
+            // If post is successfull
+            if (r.data.acknowledged) {
+              toast.success("Todo added successfullt");
+              form.reset();
+              setCreatingTask(false);
+            } else {
+              toast.error("Something went wrong, Posting failed");
+              setCreatingTask(false);
+            }
+          });
         }
         setCreatingTaskError(true);
         setCreatingTask(false);
@@ -119,9 +132,18 @@ const AddTask = () => {
             <div className="w-10 h-10 rounded-full bg-selectColor4 cursor-pointer"></div>
           </div>
           {/* Add Task */}
-          <button className="text-primaryColor bg-[#fcf0f2] text-lg font-medium px-4 rounded-md hover:bg-[#f7c8d2] flex items-center">
-            <SlPlus className="mr-2" />
-            Task
+          <button
+            disabled={creatingTask}
+            className="text-primaryColor bg-[#fcf0f2] text-lg font-medium px-4 rounded-md hover:bg-[#f7c8d2] flex items-center"
+          >
+            {creatingTask ? (
+              <span className="inline-block animate-bounce">...</span>
+            ) : (
+              <>
+                <SlPlus className="mr-2" />
+                <span className="inline-block ">Task</span>
+              </>
+            )}
           </button>
         </div>
       </form>
