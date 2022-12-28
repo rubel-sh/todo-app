@@ -26,7 +26,7 @@ async function connectDB() {
 connectDB();
 
 // Collections
-const postsCollection = client.db("TodoApp").collection("todos");
+const todosCollection = client.db("TodoApp").collection("todos");
 
 // Endpoints
 app.get("/", async (req, res) => {
@@ -38,7 +38,7 @@ app.post("/todos", async (req, res) => {
   try {
     const post = req.body;
     // console.log(post);
-    const posted = await postsCollection.insertOne(post);
+    const posted = await todosCollection.insertOne(post);
     res.send(posted);
   } catch (err) {
     console.log(err);
@@ -46,6 +46,14 @@ app.post("/todos", async (req, res) => {
 });
 
 // Get all todos
+app.get("/todos", async (req, res) => {
+  try {
+    const todos = await todosCollection.find({}).toArray();
+    res.send(todos);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 // Listening Port
 app.listen(PORT, () => {
