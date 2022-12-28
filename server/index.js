@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const colors = require("colors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
 const app = express();
@@ -55,6 +55,36 @@ app.get("/todos", async (req, res) => {
   }
 });
 
+// Update todo
+app.put("/todos", async (req, res) => {
+  try {
+    const { _id, title, desc, image, COD, status, color } = req.body;
+    const filter = { _id: ObjectId(_id) };
+    const options = { upsert: false };
+    const updateDoc = { $set: { title, desc, image, COD, status, color } };
+    const updateTodo = await todosCollection.updateOne(
+      filter,
+      updateDoc,
+      options
+    );
+    console.log(updateTodo);
+    res.send(updateTodo);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Delete todo
+app.delete("/todos/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const filter = { _id: ObjectId(id) };
+    const deleteTodo = await todosCollection.deleteOne(filter);
+    res.send(deleteTodo);
+  } catch (err) {
+    console.log(err);
+  }
+});
 // Listening Port
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
