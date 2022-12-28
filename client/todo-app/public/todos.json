@@ -5,7 +5,7 @@
         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled ",
         "image": "https://www.pngkey.com/png/full/895-8951628_student-learning-writing-boy-doing-homework-drawing.png",
         "COD": "2020-05-11T20:14:14.796Z",
-        "color":"#ffffff",
+        "color":"selectColor1",
         "status":"pending"
     },
     {
@@ -14,7 +14,7 @@
         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled ",
         "image": "https://www.pngkey.com/png/full/895-8951628_student-learning-writing-boy-doing-homework-drawing.png",
         "COD": "2020-05-11T20:14:14.796Z",
-        "color":"#ffffff",
+        "color":"selectColor2",
         "status":"pending"
     },
     {
@@ -23,7 +23,7 @@
         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled ",
         "image": "https://www.pngkey.com/png/full/895-8951628_student-learning-writing-boy-doing-homework-drawing.png",
         "COD": "2020-05-11T20:14:14.796Z",
-        "color":"#ffffff",
+        "color":"selectColor3",
         "status":"pending"
     },
     {
@@ -31,8 +31,8 @@
         "title":"Homework",
         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled ",
         "image": "https://www.pngkey.com/png/full/895-8951628_student-learning-writing-boy-doing-homework-drawing.png",
-        "COD": "2020-05-11T20:14:14.796Z",
-        "color":"#ffffff",
+        "COD": "2022-12-11T20:14:14.796Z",
+        "color":"selectColor4",
         "status":"pending"
     }
 ]

@@ -1,18 +1,23 @@
 import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { MdDoneAll } from "react-icons/md";
+import { useRelativeTime } from "../hooks/useRelativeTime";
 import HoverTooltip from "./HoverTooltip";
 
 const MyTaskCard = (props) => {
   const { _id, title, desc, image, COD, color, status } = props.task;
+  const relativeTime = useRelativeTime(COD);
+
   return (
-    <div className=" border rounded-lg p-2 md:p-5">
+    <div className={`border rounded-lg p-2 md:p-5  border-l-4 border-${color}`}>
       <div className="grid grid-cols-12">
         {/* Image */}
         <div className="col-span-4 my-auto">
           <img src={image} alt="" className="rounded-lg " />
+          {/* COD */}
+          <small className="inline-block my-3">Added: {relativeTime}</small>
           {/* Icons buttons */}
-          <div className="flex items-center text-2xl gap-5 mt-4 justify-center">
+          <div className="flex items-center text-2xl gap-5 mt-4 justify-center bg-backgroundColor py-2 rounded-md">
             <HoverTooltip content="Mark as complete">
               <MdDoneAll className="cursor-pointer hover:text-primaryColor" />
             </HoverTooltip>
