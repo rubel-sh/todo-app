@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CardHeading from "../../components/CardHeading";
 import CompletedTaskCard from "../../components/CompletedTaskCard";
-import MyTaskCard from "../../components/MyTaskCard";
 
 const CompletedTasks = () => {
   const [tasks, setTasks] = useState([]);
