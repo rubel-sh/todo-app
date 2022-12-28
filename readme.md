@@ -11,6 +11,7 @@ User can sign in with Google or create account with Email and password
 - Axios
 - Redux Toolkit
 - react-photo-view
+- moment.js
 
 ## Server Side
 
