@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/todo_logo.png";
+import profileLogo from "../../../assets/profile.svg";
 
 const TodoNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const MenuLinks = [
     { to: "/addtask", title: "Add Task" },
@@ -12,6 +14,13 @@ const TodoNav = () => {
   ];
 
   const activeStyle = { color: "#D9465A" };
+
+  //Handlers
+  const handleDarkModeSwitch = () => {
+    setIsDarkMode(!isDarkMode);
+    // save dark mode status on localStorage
+    localStorage.setItem("todoAppDarkMode", !isDarkMode);
+  };
 
   return (
     <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8  ">
@@ -22,10 +31,10 @@ const TodoNav = () => {
             Todo
           </span>
         </Link>
-        <ul className="flex items-center hidden space-x-8 lg:flex">
+        <ul className=" items-center hidden space-x-8 lg:flex">
           {/* Iterate Nav Links */}
           {MenuLinks.map((link) => (
-            <li>
+            <li key={link.to}>
               <NavLink
                 to={link.to}
                 style={({ isActive }) => (isActive ? activeStyle : null)}
@@ -36,16 +45,45 @@ const TodoNav = () => {
             </li>
           ))}
         </ul>
-        <ul className="flex items-center hidden space-x-8 lg:flex">
+        <ul className=" items-center hidden space-x-8 lg:flex">
+          {/* Toggle Darkmode */}
+          <li className="flex flex-col justify-center">
+            {isDarkMode ? (
+              <label className="inline-flex relative items-center cursor-pointer ">
+                <input
+                  type="checkbox"
+                  value={isDarkMode}
+                  className="sr-only peer"
+                  defaultChecked={true}
+                  onClick={handleDarkModeSwitch}
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              </label>
+            ) : (
+              <label className="inline-flex relative items-center cursor-pointer ">
+                <input
+                  type="checkbox"
+                  value={isDarkMode}
+                  className="sr-only peer"
+                  defaultChecked={false}
+                  onClick={handleDarkModeSwitch}
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              </label>
+            )}
+          </li>
+
+          {/* Join / Profile Picture */}
           <li>
-            <a
+            <img src={profileLogo} className="cursor-pointer" alt="" />
+            {/* <a
               href="/"
               className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
               aria-label="Sign up"
               title="Sign up"
             >
               Sign up
-            </a>
+            </a> */}
           </li>
         </ul>
         <div className="lg:hidden">
@@ -102,7 +140,7 @@ const TodoNav = () => {
                   <ul className="space-y-4">
                     {/* Iterate Nav Links */}
                     {MenuLinks.map((link) => (
-                      <li>
+                      <li key={link.to}>
                         <NavLink
                           to={link.to}
                           style={({ isActive }) =>
