@@ -7,6 +7,9 @@ module.exports = {
         sans: ["Montserrat"],
       },
       colors: {
+        primaryColor: "#D9465A",
+        secondaryColor: "#6B7280",
+        backgroundColor: "#F5F6F9",
         red: {
           50: "#ffebee",
           100: "#ffcdd2",

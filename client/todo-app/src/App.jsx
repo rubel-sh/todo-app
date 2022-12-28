@@ -4,7 +4,7 @@ import { route } from "./routes/route";
 
 const App = () => {
   return (
-    <div>
+    <div className="bg-backgroundColor">
       <RouterProvider router={route} />
     </div>
   );
