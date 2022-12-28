@@ -11,19 +11,17 @@ const CompletedTaskCard = (props) => {
         {/* Image */}
         <div className="col-span-4 my-auto">
           <img src={image} alt="" className="rounded-lg " />
+          {/* Icons buttons */}
+          <div className="flex items-center text-2xl gap-5 mt-4 justify-center">
+            <FiTrash2 className="cursor-pointer hover:text-primaryColor" />
+          </div>
         </div>
         {/* Descriptions */}
-        <div className="col-span-7 px-5 ">
-          <p className=" font-medium text-lg  outline-none  rounded-md p-1 mb-2">
+        <div className="col-span-8 px-5 ">
+          <p className=" font-medium text-lg  outline-none  rounded-md px-4 py-1 mb-2">
             {title}
           </p>
-          <p className=" text-sm w-full outline-none   rounded-md p-1">
-            {desc}
-          </p>
-        </div>
-        {/* Icons buttons */}
-        <div className="col-span-1 flex flex-col justify-center text-2xl gap-5">
-          <FiTrash2 className="cursor-pointer hover:text-primaryColor" />
+          <p className=" text-sm w-full outline-none  rounded-md p-4">{desc}</p>
         </div>
       </div>
       {/* Comment section */}
