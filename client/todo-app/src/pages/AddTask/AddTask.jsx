@@ -2,11 +2,60 @@ import React from "react";
 import { SlPlus } from "react-icons/sl";
 import CardHeading from "../../components/CardHeading";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import axios from "axios";
+import { useState } from "react";
 
 const AddTask = () => {
+  const [creatingTask, setCreatingTask] = useState(false);
+  const [creatingTaskError, setCreatingTaskError] = useState(false);
+
   const handlePost = (e) => {
+    setCreatingTask(true);
     e.preventDefault();
     const form = e.target;
+    const title = form.title.value;
+    const desc = form.desc.value;
+    const COD = new Date();
+    const status = "pending";
+    let color = "";
+
+    const imageField = form.image.files[0];
+    let imageForm = new FormData();
+    imageForm.append("image", imageField);
+
+    /**
+     * Upload image to imgBB
+     *
+     *
+     * * */
+
+    const uploadImageToBB = async () => {
+      try {
+        const IMGBB_API = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API
+        }`;
+        const response = await axios.post(IMGBB_API, imageForm);
+        const imageLinks = response.data;
+
+        // If image upload succeed
+        if (imageLinks.success) {
+          const image = imageLinks.data.thumb.url;
+          const task = { title, desc, image, COD, status, color };
+
+          // Upload data to DB
+          console.log(task);
+        }
+        setCreatingTaskError(true);
+        setCreatingTask(false);
+      } catch (err) {
+        setCreatingTask(false);
+        setCreatingTaskError(true);
+        console.log(err);
+      }
+    };
+
+    const imageUploadResult = uploadImageToBB();
+    console.log(imageUploadResult);
   };
   return (
     <div className=" p-10 bg-white rounded-md">
@@ -16,6 +65,7 @@ const AddTask = () => {
           {/* Add Title */}
           <input
             type="text"
+            name="title"
             placeholder="Task Title"
             className="w-full rounded-md py-2 px-4 outline-none bg-backgroundColor"
             required
@@ -23,8 +73,7 @@ const AddTask = () => {
           <div className="flex flex-col md:flex-row gap-4">
             {/* Text Description */}
             <textarea
-              name=""
-              id=""
+              name="desc"
               className="w-full outline-none rounded-md py-2 px-4 bg-backgroundColor"
               placeholder="Task Descriptions..."
               rows="6"
@@ -40,6 +89,7 @@ const AddTask = () => {
               </label>
               <input
                 id="uploadImage"
+                name="image"
                 type="file"
                 className=" absolute -z-10 top-1/2 w-1"
                 required
@@ -49,10 +99,22 @@ const AddTask = () => {
         </div>
         {/* Select color and add task btn */}
         <div className="flex w-full justify-between">
-          {/* Colors */}
+          {/* Colors kaj baki ase */}
           <div className="flex gap-2">
-            <div className="w-10 h-10 rounded-full bg-selectColor1 cursor-pointer"></div>
-            <div className="w-10 h-10 rounded-full bg-selectColor2 cursor-pointer"></div>
+            <input
+              type="radio"
+              id="color-radio-1"
+              value=""
+              name="default-radio"
+              className="peer w-10 h-10 rounded-full bg-selectColor1  cursor-pointer"
+            />
+            <input
+              type="radio"
+              id="color-radio-2"
+              value=""
+              name="default-radio"
+              className="w-10 h-10 rounded-full bg-selectColor2 cursor-pointer"
+            />
             <div className="w-10 h-10 rounded-full bg-selectColor3 cursor-pointer"></div>
             <div className="w-10 h-10 rounded-full bg-selectColor4 cursor-pointer"></div>
           </div>
