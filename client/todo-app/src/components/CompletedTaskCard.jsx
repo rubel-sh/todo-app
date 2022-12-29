@@ -5,6 +5,7 @@ import { useRelativeTime } from "../hooks/useRelativeTime";
 
 const CompletedTaskCard = (props) => {
   const { _id, title, desc, image, COD, color, status } = props.task;
+  const { handleDelete } = props;
   const relativeTime = useRelativeTime(COD);
 
   if (!color) {
@@ -24,7 +25,10 @@ const CompletedTaskCard = (props) => {
             <small className="inline-block my-3">Added: {relativeTime}</small>
             {/* Icons buttons */}
             <div className="flex items-center text-2xl gap-5  justify-center bg-backgroundColor py-2 rounded-md">
-              <FiTrash2 className="cursor-pointer hover:text-primaryColor" />
+              <FiTrash2
+                className="cursor-pointer hover:text-primaryColor"
+                onClick={() => handleDelete(props.task)}
+              />
             </div>
           </div>
           {/* Descriptions */}

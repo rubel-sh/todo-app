@@ -12,6 +12,7 @@ User can sign in with Google or create account with Email and password
 - Redux Toolkit
 - react-photo-view
 - moment.js
+- sweetalert2
 
 ## Server Side
 

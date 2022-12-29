@@ -6,6 +6,7 @@ import HoverTooltip from "./HoverTooltip";
 
 const MyTaskCard = (props) => {
   const { _id, title, desc, image, COD, color, status } = props.task;
+  const { handleDelete } = props;
   const relativeTime = useRelativeTime(COD);
 
   if (status === "pending") {
@@ -25,7 +26,10 @@ const MyTaskCard = (props) => {
                 <MdDoneAll className="cursor-pointer hover:text-primaryColor" />
               </HoverTooltip>
               <FiEdit className="cursor-pointer hover:text-primaryColor" />
-              <FiTrash2 className="cursor-pointer hover:text-primaryColor" />
+              <FiTrash2
+                className="cursor-pointer hover:text-primaryColor"
+                onClick={() => handleDelete(props.task)}
+              />
             </div>
           </div>
           {/* Descriptions */}
