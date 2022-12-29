@@ -9,7 +9,7 @@ const CompletedTaskCard = (props) => {
   const relativeTime = useRelativeTime(COD);
 
   return (
-    <div className={`border rounded-lg p-2 md:p-5  border-l-4 border-${color}`}>
+    <div className={`border rounded-lg p-2 md:p-5  border-l-2 border-${color}`}>
       <div className="grid grid-cols-12  rounded-lg ">
         {/* Image */}
         <div className="col-span-4 my-auto">

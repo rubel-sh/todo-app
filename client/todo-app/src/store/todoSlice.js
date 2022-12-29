@@ -71,7 +71,6 @@ export function completeTodo(todo) {
   return async function completeTodoThunk(dispatch, getState) {
     // change status
     const updateTodo = { ...todo, status: "completed" };
-
     dispatch(setStatus(STATUSES.LOADING));
     try {
       const res = await axios.put(
@@ -79,9 +78,32 @@ export function completeTodo(todo) {
         updateTodo
       );
       const data = await res.data;
-      console.log(updateTodo, data);
       // If deleted successfully
       if (data.deletedCount) {
+        // Refetch data
+        dispatch(fetchTodos());
+      }
+      dispatch(setStatus(STATUSES.IDLE));
+    } catch (err) {
+      console.log(err);
+      dispatch(setStatus(STATUSES.ERROR));
+    }
+  };
+}
+
+// Update title & description
+export function updateTodo(updatedTodo) {
+  return async function updateTodoThunk(dispatch, getState) {
+    dispatch(setStatus(STATUSES.LOADING));
+    try {
+      console.log(updatedTodo);
+      const res = await axios.put(
+        `${import.meta.env.VITE_API}/todos`,
+        updatedTodo
+      );
+      const data = await res.data;
+      // If updated data successfully
+      if (data.modifiedCount) {
         // Refetch data
         dispatch(fetchTodos());
       }

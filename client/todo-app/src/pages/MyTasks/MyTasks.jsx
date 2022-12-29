@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardHeading from "../../components/CardHeading";
@@ -10,11 +9,12 @@ import {
   deleteTodo,
   fetchTodos,
   STATUSES,
+  updateTodo,
 } from "../../store/todoSlice";
 import { useNavigate } from "react-router-dom";
 
 const MyTasks = () => {
-  // const [tasks, setTasks] = useState([]);
+  const [editMode, setEditMode] = useState(false);
   const dispatch = useDispatch();
   const { data: tasks, status } = useSelector((state) => state.todos);
   const navigate = useNavigate();
@@ -38,10 +38,9 @@ const MyTasks = () => {
     });
   };
   const handleComplete = (todo) => {
-    console.log(todo);
     Swal.fire({
       title: "Are you sure?",
-      text: `Completed ${todo.title}?`,
+      text: `Complete ${todo.title}?`,
       icon: "success",
       showCancelButton: true,
       confirmButtonColor: "#3dc73d",
@@ -60,6 +59,20 @@ const MyTasks = () => {
         navigate("/completedtasks");
       }
     });
+  };
+
+  const handleUpdate = (updatedData) => {
+    // set edit mode to true
+    setEditMode(!editMode);
+  };
+
+  const handleSubmitUpdate = (e, task) => {
+    e.preventDefault();
+    setEditMode(!editMode);
+    const form = e.target;
+    const title = form.title.value;
+    const desc = form.desc.value;
+    dispatch(updateTodo({ ...task, title, desc }));
   };
 
   useEffect(() => {
@@ -90,8 +103,11 @@ const MyTasks = () => {
           <MyTaskCard
             key={task._id}
             task={task}
+            editMode={editMode}
             handleDelete={handleDelete}
             handleComplete={handleComplete}
+            handleUpdate={handleUpdate}
+            handleSubmitUpdate={handleSubmitUpdate}
           />
         ))}
       </div>

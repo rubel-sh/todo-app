@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { MdDoneAll } from "react-icons/md";
 import { useRelativeTime } from "../hooks/useRelativeTime";
@@ -6,11 +7,18 @@ import HoverTooltip from "./HoverTooltip";
 
 const MyTaskCard = (props) => {
   const { _id, title, desc, image, COD, color, status } = props.task;
-  const { handleDelete, handleComplete } = props;
+
+  const {
+    handleDelete,
+    handleComplete,
+    handleUpdate,
+    editMode,
+    handleSubmitUpdate,
+  } = props;
   const relativeTime = useRelativeTime(COD);
 
   return (
-    <div className={`border rounded-lg p-2 md:p-5  border-l-4 border-${color}`}>
+    <div className={`border rounded-lg p-2 md:p-5  border-l-2 border-${color}`}>
       <div className="grid grid-cols-12">
         {/* Image */}
         <div className="col-span-4 my-auto">
@@ -25,7 +33,10 @@ const MyTaskCard = (props) => {
               onClick={() => handleComplete(props.task)}
             />
             {/* </HoverTooltip> */}
-            <FiEdit className="cursor-pointer hover:text-primaryColor" />
+            <FiEdit
+              className="cursor-pointer hover:text-primaryColor"
+              onClick={() => handleUpdate(props.task)}
+            />
             <FiTrash2
               className="cursor-pointer hover:text-primaryColor"
               onClick={() => handleDelete(props.task)}
@@ -33,23 +44,51 @@ const MyTaskCard = (props) => {
           </div>
         </div>
         {/* Descriptions */}
-        <div className="col-span-8 px-5 ">
-          <input
-            //   disabled
-            type="text"
-            className=" font-medium text-lg  outline-none bg-backgroundColor rounded-md py-1 px-4 mb-4"
-            defaultValue={title}
-          />
-          <textarea
-            //   disabled
-            rows={7}
-            className=" text-sm w-full outline-none  bg-backgroundColor rounded-md  p-4 "
-            defaultValue={desc}
-          />
-          <button className="float-right bg-red-100 hover:bg-red-200 text-primaryColor font-bold px-2 py-1 rounded-md mt-2">
-            Done
-          </button>
-        </div>
+        {editMode ? (
+          <form
+            onSubmit={(e) => handleSubmitUpdate(e, props.task)}
+            className="col-span-8 px-5 "
+          >
+            <input
+              disabled={!editMode}
+              type="text"
+              name="title"
+              className={`font-medium text-lg  outline-none ${
+                editMode ? "bg-backgroundColor border" : "bg-white"
+              } rounded-md py-1 px-4 mb-4`}
+              defaultValue={title}
+            />
+            <textarea
+              disabled={!editMode}
+              rows={7}
+              name="desc"
+              className={`text-sm w-full outline-none ${
+                editMode ? "bg-backgroundColor border" : "bg-white"
+              } rounded-md  p-4 `}
+              defaultValue={desc}
+            />
+
+            <button className="reveal_update_btn float-right bg-red-100 hover:bg-red-200 text-primaryColor font-medium px-2 py-1 rounded-md mt-2">
+              Update
+            </button>
+          </form>
+        ) : (
+          <form
+            onSubmit={(e) => handleSubmitUpdate(e, props.task)}
+            className="col-span-8 px-5 "
+          >
+            <p
+              className={`font-medium text-lg  outline-none bg-white rounded-md py-1 px-4 mb-4`}
+            >
+              {title}
+            </p>
+            <p
+              className={`text-sm w-full outline-none bg-white rounded-md  p-4 `}
+            >
+              {desc}
+            </p>
+          </form>
+        )}
       </div>
     </div>
   );
