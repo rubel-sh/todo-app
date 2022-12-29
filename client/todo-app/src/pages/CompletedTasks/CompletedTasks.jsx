@@ -48,7 +48,11 @@ const CompletedTasks = () => {
   }, []);
 
   if (status === STATUSES.LOADING) {
-    return <LoadingSpinner className="mx-auto mt-5" />;
+    return (
+      <div className="text-center h-screen">
+        <LoadingSpinner className="mx-auto mt-5" />
+      </div>
+    );
   }
 
   // Filter only My Tasks {status:"pending"}
@@ -63,7 +67,7 @@ const CompletedTasks = () => {
     );
   }
   return (
-    <div className=" p-2 md:p-5 lg:p-10 bg-white rounded-md">
+    <div className=" p-2 md:p-5 lg:p-10 bg-white dark:bg-slate-700 dark:text-white rounded-md">
       <CardHeading>Completed Tasks</CardHeading>
       {/* each card */}
       <div className="grid md:grid-cols-2 gap-5">

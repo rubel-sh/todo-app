@@ -17,7 +17,7 @@ const CompletedTaskCard = (props) => {
           {/* COD */}
           <small className="inline-block my-3">Added: {relativeTime}</small>
           {/* Icons buttons */}
-          <div className="flex items-center text-2xl gap-5  justify-center bg-backgroundColor py-2 rounded-md">
+          <div className="flex items-center text-2xl gap-5  justify-center bg-backgroundColor dark:bg-slate-800 py-2 rounded-md">
             <FiTrash2
               className="cursor-pointer hover:text-primaryColor"
               onClick={() => handleDelete(props.task)}
@@ -38,7 +38,7 @@ const CompletedTaskCard = (props) => {
         {comments.map((comment) => (
           <div
             key={comment._id}
-            className="p-2 text-sm text-slate-800  flex items-center"
+            className="p-2 text-sm text-slate-800 dark:text-white  flex items-center"
           >
             <AiOutlineComment className="text-2xl mr-2" />
             {comment.comment}
@@ -54,7 +54,7 @@ const CompletedTaskCard = (props) => {
             type="text"
             name="comment"
             placeholder="Add comment..."
-            className="w-full rounded-l-md py-2 px-4 outline-none bg-backgroundColor"
+            className="w-full rounded-l-md py-2 px-4 outline-none bg-backgroundColor dark:bg-slate-800"
           />
           <button className="px-6 py-2 bg-primaryColor text-white rounded-r-md ">
             <span className="inline-block ">ADD</span>

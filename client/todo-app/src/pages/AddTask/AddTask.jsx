@@ -43,7 +43,14 @@ const AddTask = () => {
         // If image upload succeed
         if (imageLinks.success) {
           const image = imageLinks.data.thumb.url;
-          const task = { title, desc, image, COD, status, color };
+          const task = {
+            title,
+            desc,
+            image,
+            COD,
+            status,
+            color: "selectColor1", //hard coded color
+          };
 
           // Upload data to DB
           console.log(task);
@@ -77,7 +84,7 @@ const AddTask = () => {
     return <div>Something went wrong pleace try again.</div>;
   }
   return (
-    <div className=" p-10 bg-white rounded-md">
+    <div className=" p-10 bg-white dark:bg-slate-700 rounded-md">
       <CardHeading>Create Task</CardHeading>
       <form onSubmit={handlePost}>
         <div className="grid gap-4 mb-8">
@@ -86,14 +93,14 @@ const AddTask = () => {
             type="text"
             name="title"
             placeholder="Task Title"
-            className="w-full rounded-md py-2 px-4 outline-none bg-backgroundColor"
+            className="w-full rounded-md py-2 px-4 outline-none bg-backgroundColor dark:bg-slate-600 text-white"
             required
           />
           <div className="flex flex-col md:flex-row gap-4">
             {/* Text Description */}
             <textarea
               name="desc"
-              className="w-full outline-none rounded-md py-2 px-4 bg-backgroundColor"
+              className="w-full outline-none rounded-md py-2 px-4 bg-backgroundColor dark:bg-slate-600 text-white"
               placeholder="Task Descriptions..."
               rows="6"
               required
@@ -102,7 +109,7 @@ const AddTask = () => {
             <div className="relative">
               <label
                 htmlFor="uploadImage"
-                className="h-full bg-backgroundColor hover:bg-red-100 hover:text-primaryColor transition-all outline-none rounded-md py-2 px-16 flex justify-center items-center cursor-pointer "
+                className="h-full bg-backgroundColor dark:bg-slate-600 dark:hover:bg-slate-400  text-white hover:bg-red-100 hover:text-primaryColor transition-all outline-none rounded-md py-2 px-16 flex justify-center items-center cursor-pointer "
               >
                 <MdOutlineAddPhotoAlternate className="text-6xl " />
               </label>
@@ -140,7 +147,7 @@ const AddTask = () => {
           {/* Add Task */}
           <button
             disabled={creatingTask}
-            className="text-primaryColor bg-[#fcf0f2] text-lg font-medium px-4 rounded-md hover:bg-[#f7c8d2] flex items-center"
+            className="text-primaryColor dark:bg-slate-600 bg-[#fcf0f2] text-lg font-medium px-4 rounded-md hover:bg-[#f7c8d2] flex items-center"
           >
             {creatingTask ? (
               <span className="inline-block animate-bounce">...</span>

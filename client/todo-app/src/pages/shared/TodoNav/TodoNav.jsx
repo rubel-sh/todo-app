@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/todo_logo.png";
+import { DarkModeSwitch } from "react-toggle-dark-mode";
 import profileLogo from "../../../assets/profile.svg";
 
 const TodoNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
+  const [isDarkMode, setDarkMode] = useState(false);
+  console.log(isDarkMode);
   const MenuLinks = [
     { to: "/addtask", title: "Add Task" },
     { to: "/mytasks", title: "My Tasks" },
@@ -15,19 +16,26 @@ const TodoNav = () => {
 
   const activeStyle = { color: "#D9465A" };
 
+  // Toggle dark class on html
+  useEffect(() => {
+    if (isDarkMode) {
+      document.querySelector("html").classList.add("dark");
+    } else {
+      document.querySelector("html").classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
   //Handlers
-  const handleDarkModeSwitch = () => {
-    setIsDarkMode(!isDarkMode);
-    // save dark mode status on localStorage
-    localStorage.setItem("todoAppDarkMode", !isDarkMode);
+  const toggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
   };
 
   return (
     <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8  ">
-      <div className="relative flex items-center justify-between mb-10 bg-white rounded-lg px-4 py-2">
+      <div className="relative flex items-center justify-between mb-10 bg-white dark:bg-slate-700 rounded-lg px-4 py-2">
         <Link to="/" className="inline-flex items-center">
           <img src={logo} alt="logo" className="max-w-[50px]" />
-          <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+          <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 dark:text-white uppercase">
             Todo
           </span>
         </Link>
@@ -38,7 +46,7 @@ const TodoNav = () => {
               <NavLink
                 to={link.to}
                 style={({ isActive }) => (isActive ? activeStyle : null)}
-                className={`font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-primaryColor`}
+                className={`font-medium tracking-wide text-gray-700 dark:text-white transition-colors duration-200 hover:text-primaryColor`}
               >
                 {link.title}
               </NavLink>
@@ -48,29 +56,11 @@ const TodoNav = () => {
         <ul className=" items-center hidden space-x-8 lg:flex">
           {/* Toggle Darkmode */}
           <li className="flex flex-col justify-center">
-            {isDarkMode ? (
-              <label className="inline-flex relative items-center cursor-pointer ">
-                <input
-                  type="checkbox"
-                  value={isDarkMode}
-                  className="sr-only peer"
-                  defaultChecked={true}
-                  onClick={handleDarkModeSwitch}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              </label>
-            ) : (
-              <label className="inline-flex relative items-center cursor-pointer ">
-                <input
-                  type="checkbox"
-                  value={isDarkMode}
-                  className="sr-only peer"
-                  defaultChecked={false}
-                  onClick={handleDarkModeSwitch}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              </label>
-            )}
+            <DarkModeSwitch
+              checked={isDarkMode}
+              onChange={toggleDarkMode}
+              size={30}
+            />
           </li>
 
           {/* Join / Profile Picture */}
@@ -110,12 +100,12 @@ const TodoNav = () => {
           </button>
           {isMenuOpen && (
             <div className="absolute top-0 left-0 w-full">
-              <div className="p-5 bg-white border rounded shadow-sm">
+              <div className="p-5 bg-white dark:bg-slate-900 border rounded shadow-sm">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <Link to="/" className="inline-flex items-center">
                       <img src={logo} alt="logo" className="max-w-[50px]" />
-                      <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+                      <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 dark:text-white uppercase">
                         Todo
                       </span>
                     </Link>
@@ -127,7 +117,10 @@ const TodoNav = () => {
                       className="p-2 -mt-2 -mr-2 transition duration-200 rounded hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      <svg className="w-5 text-gray-600" viewBox="0 0 24 24">
+                      <svg
+                        className="w-5 text-gray-600 dark:text-white"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           fill="currentColor"
                           d="M19.7,4.3c-0.4-0.4-1-0.4-1.4,0L12,10.6L5.7,4.3c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4l6.3,6.3l-6.3,6.3 c-0.4,0.4-0.4,1,0,1.4C4.5,19.9,4.7,20,5,20s0.5-0.1,0.7-0.3l6.3-6.3l6.3,6.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3 c0.4-0.4,0.4-1,0-1.4L13.4,12l6.3-6.3C20.1,5.3,20.1,4.7,19.7,4.3z"
@@ -146,12 +139,19 @@ const TodoNav = () => {
                           style={({ isActive }) =>
                             isActive ? activeStyle : null
                           }
-                          className={`font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-primaryColor`}
+                          className={`font-medium tracking-wide text-gray-700 dark:text-white transition-colors duration-200 hover:text-primaryColor`}
                         >
                           {link.title}
                         </NavLink>
                       </li>
                     ))}
+                    <li className="flex flex-col justify-center">
+                      <DarkModeSwitch
+                        checked={isDarkMode}
+                        onChange={toggleDarkMode}
+                        size={30}
+                      />
+                    </li>
                   </ul>
                 </nav>
               </div>
