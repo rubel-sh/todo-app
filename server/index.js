@@ -27,6 +27,7 @@ connectDB();
 
 // Collections
 const todosCollection = client.db("TodoApp").collection("todos");
+const commentsCollection = client.db("TodoApp").collection("comments");
 
 // Endpoints
 app.get("/", async (req, res) => {
@@ -81,6 +82,29 @@ app.delete("/todos/:id", async (req, res) => {
     const filter = { _id: ObjectId(id) };
     const deleteTodo = await todosCollection.deleteOne(filter);
     res.send(deleteTodo);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Add comment to db via todo id
+app.post("/comments/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const comment = req.body;
+    const doc = { todoId: id, ...comment };
+    const commentAdded = await commentsCollection.insertOne(doc);
+    res.send(commentAdded);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// get comment
+app.get("/comments", async (req, res) => {
+  try {
+    const allComments = await commentsCollection.find({}).toArray();
+    res.send(allComments);
   } catch (err) {
     console.log(err);
   }
