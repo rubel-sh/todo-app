@@ -5,11 +5,11 @@ import { useRelativeTime } from "../hooks/useRelativeTime";
 
 const CompletedTaskCard = (props) => {
   const { _id, title, desc, image, COD, color, status } = props.task;
-  const { handleDelete } = props;
+  const { handleDelete, handleComment, comments } = props;
   const relativeTime = useRelativeTime(COD);
 
   return (
-    <div className={`border rounded-lg p-2 md:p-5  border-l-2 border-${color}`}>
+    <div className={`border rounded-lg p-2 md:p-5  border-l-4 border-${color}`}>
       <div className="grid grid-cols-12  rounded-lg ">
         {/* Image */}
         <div className="col-span-4 my-auto">
@@ -35,14 +35,24 @@ const CompletedTaskCard = (props) => {
       {/* Comment section */}
       <hr className="my-5" />
       <div className="mt-5">
-        <div className="p-2 text-sm text-slate-800 mb-5 flex items-center">
-          <AiOutlineComment className="text-2xl mr-2" />
-          Awesome work as always. Keep it going
-        </div>
+        {comments.map((comment) => (
+          <div
+            key={comment._id}
+            className="p-2 text-sm text-slate-800  flex items-center"
+          >
+            <AiOutlineComment className="text-2xl mr-2" />
+            {comment.comment}
+          </div>
+        ))}
+
         {/* Add comment field */}
-        <form className="flex items-center">
+        <form
+          onSubmit={(e) => handleComment(e, _id)}
+          className="flex items-center"
+        >
           <input
             type="text"
+            name="comment"
             placeholder="Add comment..."
             className="w-full rounded-l-md py-2 px-4 outline-none bg-backgroundColor"
           />

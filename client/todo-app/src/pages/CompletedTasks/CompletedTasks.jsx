@@ -4,12 +4,15 @@ import Swal from "sweetalert2";
 import CardHeading from "../../components/CardHeading";
 import CompletedTaskCard from "../../components/CompletedTaskCard";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { fetchComments, postComment } from "../../store/commentSlice";
 import { deleteTodo, fetchTodos, STATUSES } from "../../store/todoSlice";
 
 const CompletedTasks = () => {
   const dispatch = useDispatch();
   const { data: tasks, status } = useSelector((state) => state.todos);
-
+  const { data: comments, status: commentStatus } = useSelector(
+    (state) => state.comments
+  );
   // Handlers
   const handleDelete = ({ _id, title }) => {
     Swal.fire({
@@ -29,8 +32,19 @@ const CompletedTasks = () => {
     });
   };
 
+  const handleComment = (e, id) => {
+    e.preventDefault();
+    const comment = e.target.comment.value;
+    const todoId = id;
+    console.log(comment, todoId);
+
+    // Dispatch comment to add
+    dispatch(postComment(todoId, { comment }));
+  };
+
   useEffect(() => {
     dispatch(fetchTodos());
+    dispatch(fetchComments());
   }, []);
 
   if (status === STATUSES.LOADING) {
@@ -53,13 +67,23 @@ const CompletedTasks = () => {
       <CardHeading>Completed Tasks</CardHeading>
       {/* each card */}
       <div className="grid md:grid-cols-2 gap-5">
-        {completedTasks.map((task) => (
-          <CompletedTaskCard
-            key={task._id}
-            task={task}
-            handleDelete={handleDelete}
-          />
-        ))}
+        {comments &&
+          completedTasks.map((task) => {
+            // Filter comments for each task
+            console.log(comments);
+            const selectedComments = comments?.filter(
+              (c) => c.todoId === task._id
+            );
+            return (
+              <CompletedTaskCard
+                key={task._id}
+                task={task}
+                handleDelete={handleDelete}
+                handleComment={handleComment}
+                comments={selectedComments}
+              />
+            );
+          })}
       </div>
     </div>
   );
