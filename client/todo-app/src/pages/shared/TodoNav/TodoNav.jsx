@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/todo_logo.png";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
-import profileLogo from "../../../assets/profile.svg";
+import { AiOutlineLogout } from "react-icons/ai";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthProvider";
 
 const TodoNav = () => {
+  const { user, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setDarkMode] = useState(false);
   console.log(isDarkMode);
@@ -29,6 +32,26 @@ const TodoNav = () => {
   const toggleDarkMode = () => {
     setDarkMode(!isDarkMode);
   };
+  const handleLogout = () => {
+    logOut();
+  };
+
+  let Links = null;
+  // If user is logged in then show private routes
+  if (user?.uid) {
+    const navs = MenuLinks.map((link) => (
+      <li key={link.to}>
+        <NavLink
+          to={link.to}
+          style={({ isActive }) => (isActive ? activeStyle : null)}
+          className={`font-medium tracking-wide text-gray-700 dark:text-white transition-colors duration-200 hover:text-primaryColor`}
+        >
+          {link.title}
+        </NavLink>
+      </li>
+    ));
+    Links = navs;
+  }
 
   return (
     <div className=" mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8  ">
@@ -41,21 +64,11 @@ const TodoNav = () => {
         </Link>
         <ul className=" items-center hidden space-x-8 lg:flex">
           {/* Iterate Nav Links */}
-          {MenuLinks.map((link) => (
-            <li key={link.to}>
-              <NavLink
-                to={link.to}
-                style={({ isActive }) => (isActive ? activeStyle : null)}
-                className={`font-medium tracking-wide text-gray-700 dark:text-white transition-colors duration-200 hover:text-primaryColor`}
-              >
-                {link.title}
-              </NavLink>
-            </li>
-          ))}
+          {Links}
         </ul>
         <ul className=" items-center hidden space-x-8 lg:flex">
           {/* Toggle Darkmode */}
-          <li className="flex flex-col justify-center">
+          <li className="flex justify-center">
             <DarkModeSwitch
               checked={isDarkMode}
               onChange={toggleDarkMode}
@@ -65,15 +78,16 @@ const TodoNav = () => {
 
           {/* Join / Profile Picture */}
           <li>
-            <img src={profileLogo} className="cursor-pointer" alt="" />
-            {/* <a
-              href="/"
-              className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-              aria-label="Sign up"
-              title="Sign up"
-            >
-              Sign up
-            </a> */}
+            {user?.uid ? (
+              <AiOutlineLogout
+                className="cursor-pointer text-3xl "
+                onClick={handleLogout}
+              />
+            ) : (
+              <Link to="register" className="text-lg font-bold md:mr-5">
+                Join
+              </Link>
+            )}
           </li>
         </ul>
         <div className="lg:hidden">
@@ -132,25 +146,28 @@ const TodoNav = () => {
                 <nav>
                   <ul className="space-y-4">
                     {/* Iterate Nav Links */}
-                    {MenuLinks.map((link) => (
-                      <li key={link.to}>
-                        <NavLink
-                          to={link.to}
-                          style={({ isActive }) =>
-                            isActive ? activeStyle : null
-                          }
-                          className={`font-medium tracking-wide text-gray-700 dark:text-white transition-colors duration-200 hover:text-primaryColor`}
-                        >
-                          {link.title}
-                        </NavLink>
-                      </li>
-                    ))}
+                    {Links}
                     <li className="flex flex-col justify-center">
                       <DarkModeSwitch
                         checked={isDarkMode}
                         onChange={toggleDarkMode}
                         size={30}
                       />
+                    </li>
+                    <li>
+                      {user?.uid ? (
+                        <AiOutlineLogout
+                          className="cursor-pointer text-3xl "
+                          onClick={handleLogout}
+                        />
+                      ) : (
+                        <Link
+                          to="register"
+                          className="text-lg font-bold md:mr-5"
+                        >
+                          Join
+                        </Link>
+                      )}
                     </li>
                   </ul>
                 </nav>

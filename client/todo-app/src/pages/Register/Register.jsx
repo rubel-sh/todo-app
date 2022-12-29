@@ -1,8 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { toast } from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 import GoogleSignIn from "../Login/GoogleSignIn";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { logIn } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
+  const from = location?.state?.from?.pathname || "/";
+
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -10,7 +19,16 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log(email, password);
+    createUser(email, password)
+      .then((data) => {
+        if (data.user?.uid) {
+          toast.success("Account Created Successfully");
+          navigate(from, { replace: true });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.code);
+      });
   };
   return (
     <section className="bg-white dark:bg-gray-900 rounded-md">

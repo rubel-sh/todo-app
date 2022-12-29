@@ -93,14 +93,14 @@ const AddTask = () => {
             type="text"
             name="title"
             placeholder="Task Title"
-            className="w-full rounded-md py-2 px-4 outline-none bg-backgroundColor dark:bg-slate-600 text-white"
+            className="w-full rounded-md py-2 px-4 outline-none bg-backgroundColor dark:bg-slate-600 dark:text-white"
             required
           />
           <div className="flex flex-col md:flex-row gap-4">
             {/* Text Description */}
             <textarea
               name="desc"
-              className="w-full outline-none rounded-md py-2 px-4 bg-backgroundColor dark:bg-slate-600 text-white"
+              className="w-full outline-none rounded-md py-2 px-4 bg-backgroundColor dark:bg-slate-600 dark:text-white"
               placeholder="Task Descriptions..."
               rows="6"
               required
@@ -109,7 +109,7 @@ const AddTask = () => {
             <div className="relative">
               <label
                 htmlFor="uploadImage"
-                className="h-full bg-backgroundColor dark:bg-slate-600 dark:hover:bg-slate-400  text-white hover:bg-red-100 hover:text-primaryColor transition-all outline-none rounded-md py-2 px-16 flex justify-center items-center cursor-pointer "
+                className="h-full bg-backgroundColor dark:bg-slate-600 dark:hover:bg-slate-400  dark:text-white hover:bg-red-100 hover:text-primaryColor transition-all outline-none rounded-md py-2 px-16 flex justify-center items-center cursor-pointer "
               >
                 <MdOutlineAddPhotoAlternate className="text-6xl " />
               </label>

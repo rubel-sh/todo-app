@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APIKEY,
-  authDomain: import.meta.env.VITE_AUTHDOMAIN,
-  projectId: import.meta.env.VITE_PROJECTID,
-  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
-  appId: import.meta.env.VITE_APPID,
+  apiKey: "AIzaSyD34n_fIP3CvTnT8giZRtybsNooKQ8J7TA",
+  authDomain: "todo-app-job-placement.firebaseapp.com",
+  projectId: "todo-app-job-placement",
+  storageBucket: "todo-app-job-placement.appspot.com",
+  messagingSenderId: "527823976935",
+  appId: "1:527823976935:web:6e52cebbad788cb5f6a542",
 };
 
 // Initialize Firebase

@@ -1,16 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import GoogleSignIn from "./GoogleSignIn";
+import { AuthContext } from "../../context/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { logIn } = useContext(AuthContext);
+  const from = location?.state?.from?.pathname || "/";
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log(email, password);
+    logIn(email, password)
+      .then((data) => {
+        if (data.user?.uid) {
+          toast.success("Successfully logged in");
+          navigate(from, { replace: true });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.code);
+      });
   };
   return (
     <section className="bg-white dark:bg-gray-900 rounded-md">

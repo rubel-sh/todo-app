@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
 import app from "../firebase/firebase.init";
@@ -14,6 +15,7 @@ const AuthProvider = ({ children }) => {
   // States
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+
   const auth = getAuth(app);
 
   //   Create User
@@ -32,6 +34,11 @@ const AuthProvider = ({ children }) => {
   const logOut = () => {
     setIsLoading(true);
     return signOut(auth);
+  };
+
+  //  Sign in with other services
+  const othersAuthProviderPopup = (provider) => {
+    return signInWithPopup(auth, provider);
   };
 
   //   Auth Observer
@@ -53,6 +60,7 @@ const AuthProvider = ({ children }) => {
     createUser,
     logIn,
     logOut,
+    othersAuthProviderPopup,
   };
 
   return (
