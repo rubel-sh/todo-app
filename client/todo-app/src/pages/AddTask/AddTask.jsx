@@ -5,10 +5,12 @@ import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const [creatingTask, setCreatingTask] = useState(false);
   const [creatingTaskError, setCreatingTaskError] = useState(false);
+  const navigate = useNavigate();
 
   const handlePost = (e) => {
     setCreatingTask(true);
@@ -49,6 +51,7 @@ const AddTask = () => {
           axios.post(postAPI, task).then((r) => {
             // If post is successfull
             if (r.data.acknowledged) {
+              navigate("/mytasks");
               toast.success("Todo added successfullt");
               form.reset();
               setCreatingTask(false);
@@ -58,7 +61,6 @@ const AddTask = () => {
             }
           });
         }
-        setCreatingTaskError(true);
         setCreatingTask(false);
       } catch (err) {
         setCreatingTask(false);
@@ -70,6 +72,10 @@ const AddTask = () => {
     const imageUploadResult = uploadImageToBB();
     console.log(imageUploadResult);
   };
+
+  if (creatingTaskError) {
+    return <div>Something went wrong pleace try again.</div>;
+  }
   return (
     <div className=" p-10 bg-white rounded-md">
       <CardHeading>Create Task</CardHeading>

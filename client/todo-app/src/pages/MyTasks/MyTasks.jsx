@@ -36,10 +36,10 @@ const MyTasks = () => {
   }, []);
 
   if (status === STATUSES.LOADING) {
-    return <LoadingSpinner className="mx-auto mt-5" />;
+    return <LoadingSpinner className="mx-auto mt-5 " />;
   }
   return (
-    <div className=" p-2 md:p-5 lg:p-10 bg-white rounded-md">
+    <div className=" p-2 md:p-5 lg:p-10 bg-white rounded-md ">
       <CardHeading>My Tasks</CardHeading>
       {/* each card */}
       <div className="grid md:grid-cols-2 gap-5">
