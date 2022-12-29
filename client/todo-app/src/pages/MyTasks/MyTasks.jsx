@@ -5,12 +5,19 @@ import CardHeading from "../../components/CardHeading";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import MyTaskCard from "../../components/MyTaskCard";
 import Swal from "sweetalert2";
-import { deleteTodo, fetchTodos, STATUSES } from "../../store/todoSlice";
+import {
+  completeTodo,
+  deleteTodo,
+  fetchTodos,
+  STATUSES,
+} from "../../store/todoSlice";
+import { useNavigate } from "react-router-dom";
 
 const MyTasks = () => {
   // const [tasks, setTasks] = useState([]);
   const dispatch = useDispatch();
   const { data: tasks, status } = useSelector((state) => state.todos);
+  const navigate = useNavigate();
 
   // Handlers
   const handleDelete = ({ _id, title }) => {
@@ -30,6 +37,30 @@ const MyTasks = () => {
       }
     });
   };
+  const handleComplete = (todo) => {
+    console.log(todo);
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Completed ${todo.title}?`,
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#3dc73d",
+      cancelButtonColor: "#D9465A",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Dispatch Delete
+        dispatch(completeTodo(todo));
+        Swal.fire(
+          "Completed!",
+          "Your todo has been marked as completed.",
+          "success"
+        );
+        // After successfully changing status to completed foto completedtasks route
+        navigate("/completedtasks");
+      }
+    });
+  };
 
   useEffect(() => {
     dispatch(fetchTodos());
@@ -44,7 +75,12 @@ const MyTasks = () => {
       {/* each card */}
       <div className="grid md:grid-cols-2 gap-5">
         {tasks?.map((task) => (
-          <MyTaskCard key={task._id} task={task} handleDelete={handleDelete} />
+          <MyTaskCard
+            key={task._id}
+            task={task}
+            handleDelete={handleDelete}
+            handleComplete={handleComplete}
+          />
         ))}
       </div>
     </div>

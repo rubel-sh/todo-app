@@ -6,7 +6,7 @@ import HoverTooltip from "./HoverTooltip";
 
 const MyTaskCard = (props) => {
   const { _id, title, desc, image, COD, color, status } = props.task;
-  const { handleDelete } = props;
+  const { handleDelete, handleComplete } = props;
   const relativeTime = useRelativeTime(COD);
 
   if (status === "pending") {
@@ -22,9 +22,12 @@ const MyTaskCard = (props) => {
             <small className="inline-block my-3">Added: {relativeTime}</small>
             {/* Icons buttons */}
             <div className="flex items-center text-2xl gap-5  justify-center bg-backgroundColor py-2 rounded-md">
-              <HoverTooltip content="Mark as complete">
-                <MdDoneAll className="cursor-pointer hover:text-primaryColor" />
-              </HoverTooltip>
+              {/* <HoverTooltip content="Mark as complete"> */}
+              <MdDoneAll
+                className="cursor-pointer hover:text-primaryColor"
+                onClick={() => handleComplete(props.task)}
+              />
+              {/* </HoverTooltip> */}
               <FiEdit className="cursor-pointer hover:text-primaryColor" />
               <FiTrash2
                 className="cursor-pointer hover:text-primaryColor"

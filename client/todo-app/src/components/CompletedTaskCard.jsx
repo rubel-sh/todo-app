@@ -8,10 +8,6 @@ const CompletedTaskCard = (props) => {
   const { handleDelete } = props;
   const relativeTime = useRelativeTime(COD);
 
-  if (!color) {
-    return null;
-  }
-
   if (status === "completed") {
     return (
       <div
