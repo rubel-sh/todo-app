@@ -69,12 +69,24 @@ const MyTasks = () => {
   if (status === STATUSES.LOADING) {
     return <LoadingSpinner className="mx-auto mt-5 " />;
   }
+  // Filter only My Tasks {status:"pending"}
+  const myTasks = tasks.filter((task) => task.status === "pending");
+
+  // If no tasks found then show empty message
+  if (!myTasks.length) {
+    return (
+      <h1 className="text-2xl text-secondaryColor text-center h-screen">
+        No Tasks found, Please Add Task
+      </h1>
+    );
+  }
+
   return (
     <div className=" p-2 md:p-5 lg:p-10 bg-white rounded-md ">
       <CardHeading>My Tasks</CardHeading>
       {/* each card */}
       <div className="grid md:grid-cols-2 gap-5">
-        {tasks?.map((task) => (
+        {myTasks?.map((task) => (
           <MyTaskCard
             key={task._id}
             task={task}
